@@ -13,11 +13,11 @@ class Parser:
                 if line:
                     self.commands.append(line)
 
-        self.current_command = 0
+        self.current_command = -1
         self.command_type = None
 
     def hasMoreCommands(self) -> bool:
-        return self.current_command < len(self.commands)
+        return self.current_command < len(self.commands) - 1
 
     def _getCommandType(self, command: str) -> str:
         """
@@ -37,9 +37,9 @@ class Parser:
         return None
     
     def advance(self) -> None:
-        if self.hasMoreCommands:
+        if self.hasMoreCommands():
             self.current_command += 1
-            command = self.commands[self.current_command - 1]
+            command = self.commands[self.current_command]
             self.command_type = self._getCommandType(command)
 
     def commandType(self) -> str:
@@ -54,11 +54,12 @@ class Parser:
         Returns:
             str: arg1 or command
         """
-        command = self.commands[self.current_command - 1]
+        command = self.commands[self.current_command]
         command_type = self.commandType()
         if command_type == "C_ARITHMETIC":
             return command
         elif command_type in ["C_PUSH", "C_POP"]:
+            # ex. push constant 7
             return command.split()[1]
         return None
 
@@ -67,8 +68,7 @@ class Parser:
         Returns:
             int: second arg of current command
         """
-        command = self.commands[self.current_command - 1]
-        return (command.split()[2])
+        return int(self.commands[self.current_command].split()[2])
 
 
 def main():
