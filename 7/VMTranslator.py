@@ -1,6 +1,5 @@
 from parser import Parser
 from codewriter import CodeWriter
-
 class VMTranslator:
     def __init__(self, input_file):
         self.input_file = input_file
