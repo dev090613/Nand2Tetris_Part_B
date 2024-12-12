@@ -93,7 +93,7 @@ M=D
 @R13
 AM=M-1
 D=M
-@TAHT
+@THAT
 M=D
 @R13
 AM=M-1
