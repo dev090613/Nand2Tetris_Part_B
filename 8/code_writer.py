@@ -149,7 +149,7 @@ class CodeWriter:
                         )
             elif segment == "static":
                 self.file.write(
-                        f"@{self.current_file}.{index}"
+                        f"@{self.current_file}.{index}\n"
                         "D=M\n"
                         # stack top = fileName.index
                         "@SP\n"
@@ -200,7 +200,7 @@ class CodeWriter:
                         "AM=M-1\n"
                         "D=M\n"
 
-                        "@{self.current_file}.{index}\n"
+                        f"@{self.current_file}.{index}\n"
                         "M=D\n"
                         )
             elif segment in [ "temp", "pointer" ]:
@@ -275,6 +275,201 @@ class CodeWriter:
                 )
         return
 
+    def writeFunction(self, functionName: str, nVars: int) -> None:
+        """
+        ex:
+            vm: function mult 2
+            asm:
+                ...
+        1. set functionName
+        2. entry opint
+        3. init local vars
+        """
+        # set functionName
+        self.current_function = functionName
+        self.file.write(
+                # entry point
+                f"({functionName})\n"
+                # repeat nVars times
+                f"@{nVars}\n"
+                "D=A\n"
+                "(INIT_LOCALS_LOOP)\n"
+                "@END_INIT_LOCALS\n"
+                "D;JEQ\n"
+                # push 0
+                "@SP\n"
+                "A=M\n"
+                "M=0\n"
+                "@SP\n"
+                "M=M+1\n"
+                # nVars--
+                "D=D-1\n"
+                "@INIT_LOCALS_LOOP\n"
+                "0;JMP\n"
+                # loop out
+                "(END_INIT_LOCALS)\n"
+                )
+
+    def writeCall(self, functionName: str, nArgs: int) -> None:
+        """
+         low addr
+            ...      <--- ARG 
+        ----------
+        return_label
+        ----------
+        (caller's)
+        LCL         
+        ARG
+        THAT 
+        THIS
+        ----------
+            ...      <--- LCL
+        """
+        return_label = f"{self.current_function}$ret.{self.label_counter}"
+        self.label_counter += 1
+
+        self.file.write(
+                # return_label
+                f"@{return_label}\n"
+                "D=A\n"
+                "@SP\n"
+                "A=M\n"
+                "M=D\n"
+                "@SP\n"
+                "M=M+1\n"
+                # caller's context
+                # LCL
+                "@LCL\n"
+                "D=M\n"
+                "@SP\n"
+                "A=M\n"
+                "M=D\n"
+                "@SP\n"
+                "M=M+1\n"
+                # ARG
+                "@ARG\n"
+                "D=M\n"
+                "@SP\n"
+                "A=M\n"
+                "M=D\n"
+                "@SP\n"
+                "M=M+1\n"
+                # THIS
+                "@THIS\n"
+                "D=M\n"
+                "@SP\n"
+                "A=M\n"
+                "M=D\n"
+                "@SP\n"
+                "M=M+1\n"
+                # THAT
+                "@THAT\n"
+                "D=M\n"
+                "@SP\n"
+                "A=M\n"
+                "M=D\n"
+
+                "@SP\n"
+                "M=M+1\n"
+                # callee ARG
+                f"@{nArgs + 5}\n"
+                "D=A\n"
+                "@SP\n"
+                "D=M-D\n"
+                "@ARG\n"
+                "M=D\n"
+                # callee LCL
+                "@SP\n"
+                "D=M\n"
+                "@LCL\n"
+                "M=D\n"
+                # jump to func
+                f"@{functionName}\n"
+                "0;JMP\n"
+                # return
+                f"({return_label})\n"
+                )
+
+
+    def writeReturn(self):
+        """
+        1. FRAME=LCL
+        2. R14=return_addr
+        3. ARG[0]=return_val
+        4. SP=ARG[0] + 1
+        5. restore caller context
+        6. goto return_addr
+        """
+        self.file.write(
+                # FRAME=LCL
+                "@LCL\n"
+                "D=M\n"
+                "@R13\n"
+                "M=D\n"
+                # R14=return_label
+                "@5\n"
+                "A=D-A\n"
+                "D=M\n"
+                "@R14\n"
+                "M=D\n"
+                # RAM[ARG] = RAM[stack top]
+                "@SP\n"
+                "AM=M-1\n"
+                "D=M\n"
+                "@ARG\n"
+                "A=M\n"
+                "M=D\n"
+                # SP = ARG + 1
+                "@ARG\n"
+                "D=M+1\n"
+                "@SP\n"
+                "M=D\n"
+                #restore THAT
+                "@R13\n"
+                "AM=M-1\n"
+                "D=M\n"
+                "@THAT\n"
+                "M=D\n"
+                # restore THIS
+                "@R13\n"
+                "AM=M-1\n"
+                "D=M\n"
+                "@THIS\n"
+                "M=D\n"
+                # restore ARG
+                "@R13\n"
+                "AM=M-1\n"
+                "D=M\n"
+                "@ARG\n"
+                "M=D\n"
+                 # restore LCL
+                "@R13\n"
+                "AM=M-1\n"
+                "D=M\n"
+                "@LCL\n"
+                "M=D\n"
+                # return
+                "@R14\n"
+                "A=M\n"
+                "0;JMP\n"
+                )
+        return
+    def writeInit(self):
+        """
+        initialize VM
+            1. SP = 256
+            2. call Sys.init
+        """
+        self.file.write(
+                "@256\n"
+                "D=A\n"
+                "@SP\n"
+                "M=D\n"
+                )
+        self.writeCall("Sys.init", 0);
+
+
+
 
 def main():
     import sys
@@ -318,6 +513,13 @@ def main():
             
             elif command_type == CommandType.C_IF:
                 writer.writeIf(parser.arg1())
+            elif command_type == CommandType.C_FUNCTION:
+                writer.writeFunction(parser.arg1(), parser.arg2())
+            elif command_type == CommandType.C_CALL:
+                writer.writeCall(parser.arg1(), parser.arg2())
+            elif command_type == CommandType.C_RETURN:
+                writer.writeReturn()
+
 
     print("\nprogram complete.\n")
 

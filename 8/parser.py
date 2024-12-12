@@ -91,6 +91,10 @@ class Parser:
             return self.parts[1]
 
     def arg2(self) -> int:
+        """
+        ex. vm: function mult 2
+            => Return 2
+        """
         return int(self.parts[2])
 
 def main():

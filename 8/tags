@@ -1,0 +1,53 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	//
+C_ARITHMETIC	parser.py	/^    C_ARITHMETIC = "arithmetic"$/;"	v	class:CommandType
+C_CALL	parser.py	/^    C_CALL = "call"$/;"	v	class:CommandType
+C_FUNCTION	parser.py	/^    C_FUNCTION = "function"$/;"	v	class:CommandType
+C_GOTO	parser.py	/^    C_GOTO = "goto"$/;"	v	class:CommandType
+C_IF	parser.py	/^    C_IF = "if-goto"$/;"	v	class:CommandType
+C_LABEL	parser.py	/^    C_LABEL = "label"$/;"	v	class:CommandType
+C_POP	parser.py	/^    C_POP = "pop"$/;"	v	class:CommandType
+C_PUSH	parser.py	/^    C_PUSH = "push"$/;"	v	class:CommandType
+C_RETURN	parser.py	/^    C_RETURN = "return"$/;"	v	class:CommandType
+CodeWriter	code_writer.py	/^class CodeWriter:$/;"	c
+CommandType	parser.py	/^class CommandType(Enum):$/;"	c
+Debugging	FunctionCalls/NestedCall/NestedCall.html	/^<h3>Debugging<\/h3>$/;"	j
+Parser	parser.py	/^class Parser:$/;"	c
+Synopsis	FunctionCalls/NestedCall/NestedCall.html	/^<h3>Synopsis<\/h3>$/;"	j
+Test Coverage	FunctionCalls/NestedCall/NestedCall.html	/^<h3>Test Coverage<\/h3>$/;"	j
+Test Structure	FunctionCalls/NestedCall/NestedCall.html	/^<h3>Test Structure<\/h3>$/;"	j
+VMTranslator	vm_translator.py	/^class VMTranslator:$/;"	c
+__enter__	code_writer.py	/^    def __enter__(self):$/;"	m	class:CodeWriter
+__exit__	code_writer.py	/^    def __exit__(self, exc_type, exc_val, exc_tb):$/;"	m	class:CodeWriter
+__init__	code_writer.py	/^    def __init__(self, output_file: str):$/;"	m	class:CodeWriter
+__init__	parser.py	/^    def __init__(self, input_file):$/;"	m	class:Parser
+__init__	vm_translator.py	/^    def __init__(self, input_path: str):$/;"	m	class:VMTranslator
+_writeBinaryOperation	code_writer.py	/^    def _writeBinaryOperation(self, operation):$/;"	m	class:CodeWriter
+_writeComparisonOperation	code_writer.py	/^    def _writeComparisonOperation(self, operation) -> None:$/;"	m	class:CodeWriter
+_writeUnaryOperation	code_writer.py	/^    def _writeUnaryOperation(self, operation) -> None:$/;"	m	class:CodeWriter
+advance	parser.py	/^    def advance(self) -> None:$/;"	m	class:Parser
+arg1	parser.py	/^    def arg1(self) -> CommandType:$/;"	m	class:Parser
+arg2	parser.py	/^    def arg2(self) -> int:$/;"	m	class:Parser
+commandType	parser.py	/^    def commandType(self) -> CommandType:$/;"	m	class:Parser
+hasMoreCommands	parser.py	/^    def hasMoreCommands(self) -> bool:$/;"	m	class:Parser
+main	code_writer.py	/^def main():$/;"	f
+main	parser.py	/^def main():$/;"	f
+main	vm_translator.py	/^def main():$/;"	f
+setFileName	code_writer.py	/^    def setFileName(self, file_name) -> None:$/;"	m	class:CodeWriter
+translate	vm_translator.py	/^    def translate(self):$/;"	m	class:VMTranslator
+writeArithmetic	code_writer.py	/^    def writeArithmetic(self, command) -> None:$/;"	m	class:CodeWriter
+writeCall	code_writer.py	/^    def writeCall(self, functionName: str, nArgs: int) -> None:$/;"	m	class:CodeWriter
+writeFunction	code_writer.py	/^    def writeFunction(self, functionName: str, nVars: int) -> None:$/;"	m	class:CodeWriter
+writeGoto	code_writer.py	/^    def writeGoto(self, label: str) -> None:$/;"	m	class:CodeWriter
+writeIf	code_writer.py	/^    def writeIf(self, label) -> None:$/;"	m	class:CodeWriter
+writeInit	code_writer.py	/^    def writeInit(self):$/;"	m	class:CodeWriter
+writeLabel	code_writer.py	/^    def writeLabel(self, label) -> None:$/;"	m	class:CodeWriter
+writePushPop	code_writer.py	/^    def writePushPop(self, command_type, segment, index) -> None:$/;"	m	class:CodeWriter
+writeReturn	code_writer.py	/^    def writeReturn(self):$/;"	m	class:CodeWriter
