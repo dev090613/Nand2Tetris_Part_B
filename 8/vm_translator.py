@@ -74,11 +74,6 @@ class VMTranslator:
                                          )
                     elif command_type == CommandType.C_RETURN:
                         writer.writeReturn()
-
-
-
-
-
     
 
 def main():
