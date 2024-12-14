@@ -1,0 +1,18 @@
+class SnakeGame{
+    // fields: snake, food, score, game over
+    field Snake snake;
+    field Food food;
+    field int score;
+    field boolean gameOver;
+
+    // constructor and methods
+    constructor SnakeGame new();
+    method void run();
+    method void moveSnake();
+    method void checkCollision();
+    method coid drawScreen;
+
+}
+
+
+
