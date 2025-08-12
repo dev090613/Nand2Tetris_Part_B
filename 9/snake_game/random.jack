@@ -1,0 +1,33 @@
+class Random {
+	static int seed;
+	
+	function void init() {
+		let seed = 12345;
+		return;
+	}
+
+	function int rand() {
+		// LCG algorithms
+		// next = (a * seed + c) % m
+		// a=1597, c=51749, m=32768
+		let seed = Math.multiply(seed, 1597) + 51749;
+		let seed = Math.divide(Math.multiply(seed, 32768), 32768);
+
+		return seed;
+	}
+
+    function int randRange(int min, int max) {
+        // 32768: 2^15
+        var int range, randNum;
+
+        let range = max - min + 1;
+
+        let randNum = Random.rand();
+        if (randNum < 0) {
+            let randNum + 32768;
+        }
+        let randNum = min + Math.divide(Math.multiply(randNum, range), 32768);
+
+        return randNum;
+    }
+}

@@ -1,9 +1,0 @@
-// food class
-class Food{
-    field int x, y; // location
-
-    constructor Food new();
-    method void randomize(); // move to new loc
-    method void draw();
-}
-

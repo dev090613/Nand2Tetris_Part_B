@@ -111,6 +111,19 @@ class Snake{
     }
 
     method void draw() {
+        var int x, y, i;
+        let i = 0;
+        
+        while (i < (length * 2)) {
+            let x = segments[i];
+            let y = segments[i + 1];
+
+            do Screen.setColor(true);
+            do Screen.drawRectangle(x, y, x + size - 1, y + size - 1);
+
+            let i = i + 2;
+        }
+        return ;
     }
 }
 

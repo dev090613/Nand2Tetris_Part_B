@@ -1,0 +1,50 @@
+from random import Random
+
+class Food{
+    field int x, y; // food location
+    field int size; // food size
+
+    constructor Food new() {
+        let size = 8;
+        do randomize();
+        return this;
+    }
+
+    method void randomize() {
+        // x: 512 / 8 = 64
+        // y: 256 / 8 = 32
+        let x = Random.randRange(0, 63) * size;
+        let y = Random.randRange(0, 32) * size;
+
+        return;
+    }
+
+	method int getX() {
+		return this.x;
+	}
+
+	method int getY() {
+		return this.y;
+	}
+
+    method void draw() {
+		do Screen.setColor(true);
+		do Screen.DrawCircle(
+				x + (size/2), 
+				y + (size/2), 
+				size/2
+				);
+
+		return ;
+    }
+
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return ;
+	}
+
+	method boolean isCollision(int snakeX, int snakeY) {
+		return (x = snakeX) && (y = snakeY);
+	}
+}
+
