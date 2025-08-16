@@ -1,48 +1,22 @@
-from parser import Parser
-from codewriter import CodeWriter
-class VMTranslator:
-    def __init__(self, input_file):
-        self.input_file = input_file
-        output_file = input_file.replace(".vm", ".asm")
+from Parser import C_PUSH, C_POP, C_ARITHMETIC
+from Parser import Parser
+from CodeWriter import CodeWriter
+import sys
 
-        self.parser = Parser(input_file)
-        self.code_writer = CodeWriter(output_file)
+input_file = sys.argv[1]
+output_file = input_file.replace(".vm", ".asm")
 
-        file_name = input_file.split("/")[-1].replace(".vm", "")
-        self.code_writer.setFileName(file_name)
+parser = Parser(input_file)
+code_writer = CodeWriter(output_file)
 
-    def translate(self):
+while parser.hasMoreLines():
+    parser.advance()
+    command_type = parser.commandType()
+    if command_type in [C_PUSH, C_POP]:
+        segment, index = parser.arg1(), parser.arg2()
+        code_writer.writePushPop(command_type, segment, index)
+    elif command_type == C_ARITHMETIC:
+        command = parser.arg1()
+        code_writer.writeArithmetic(command)
 
-        while self.parser.hasMoreCommands():
-            self.parser.advance()
-            command_type = self.parser.commandType()
-
-            if command_type == "C_ARITHMETIC":
-                self.code_writer.writeArithmetic(
-                        self.parser.arg1()
-                        )
-            elif command_type in ["C_PUSH", "C_POP"]:
-                self.code_writer.writePushPop(
-                        command_type,
-                        self.parser.arg1(),
-                        int(self.parser.arg2())
-                        )
-        self.code_writer.file.close()
-
-def main():
-    import sys
-    
-    if len(sys.argv) != 2:
-        print("Usage: python3 VMTranslator.py input_file.vm\n")
-        sys.exit(1)
-
-    input_file = sys.argv[1]
-    vm_translator = VMTranslator(input_file)
-    vm_translator.translate()
-    print("\nprogram complete.\n")
-
-
-
-
-if __name__ == "__main__":
-    main()
+code_writer.close()
