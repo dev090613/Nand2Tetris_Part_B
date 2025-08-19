@@ -1,6 +1,7 @@
+# add, sub, neg, eq, gt, lt, and, or, not
 C_ARITHMETIC = 'C_ARITHMETIC'
-C_PUSH = 'C_PUSH'
-C_POP = 'C_POP'
+# push, pop
+C_PUSH, C_POP = 'C_PUSH', 'C_POP'
 
 class Parser:
     def __init__(self, in_file):
@@ -34,16 +35,16 @@ class Parser:
 
     def commandType(self):
         if self.cur_command[0] == 'push':
-            return 'C_PUSH'
+            return C_PUSH
         elif self.cur_command[0] == 'pop':
-            return 'C_POP'
+            return C_POP
         elif self.cur_command[0] in ['add', 'sub', 'neg', 'not',\
-                         'eq', 'gt', 'lt']:
-            return 'C_ARITHMETIC'
+                         'eq', 'gt', 'lt', 'and', 'or']:
+            return C_ARITHMETIC
         return "What is this command"
 
     def arg1(self):
-        if self.commandType() == 'C_ARITHMETIC':
+        if self.commandType() == C_ARITHMETIC:
             return self.cur_command[0]
         else:
             return self.cur_command[1]
@@ -53,3 +54,21 @@ class Parser:
         if self.commandType() in ['C_PUSH', 'C_POP']:
             return self.cur_command[2]
         return 
+
+def main():
+    parser = Parser("./StackArithmetic/SimpleAdd/SimpleAdd.vm")
+    while parser.hasMoreLines():
+        parser.advance()
+        print(f"cur_command is {parser.cur_command}")
+        command_type = parser.commandType()
+        if command_type in [ C_PUSH, C_POP ]:
+            arg1 = parser.arg1()
+            arg2 = parser.arg2()
+            print(command_type, arg1, arg2)
+        elif command_type == C_ARITHMETIC:
+            arg1 = parser.arg1()
+            print(command_type, arg1)
+
+if __name__ == "__main__":
+    main()
+

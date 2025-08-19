@@ -1,5 +1,6 @@
 from parser import Parser
 from codewriter import CodeWriter
+
 class VMTranslator:
     def __init__(self, input_file):
         self.input_file = input_file
@@ -40,9 +41,6 @@ def main():
     vm_translator = VMTranslator(input_file)
     vm_translator.translate()
     print("\nprogram complete.\n")
-
-
-
 
 if __name__ == "__main__":
     main()
