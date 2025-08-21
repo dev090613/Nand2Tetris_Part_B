@@ -1,0 +1,16 @@
+class Main {
+    function void main() {
+        var int average;
+        var int a, b, c;
+
+        let a = 10;
+        let b = 10;
+        let c = 10;
+
+        let average = (a + b + c) / 3;
+        do Output.printString("Average: ");
+        do Output.printInt(average);
+
+        return;
+    }
+}

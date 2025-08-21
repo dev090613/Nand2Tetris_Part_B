@@ -1,0 +1,42 @@
+function Main.main 4
+    push constant 10
+    pop local 1
+    push constant 10
+    pop local 2
+    push constant 10
+    pop local 3
+    push local 1
+    push local 2
+    add
+    push local 3
+    add
+    push constant 3
+    call Math.divide 2
+    pop local 0
+    push constant 9
+    call String.new 1
+    push constant 65
+    call String.appendChar 2
+    push constant 118
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 97
+    call String.appendChar 2
+    push constant 103
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 58
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    call Output.printString 1
+    pop temp 0
+    push local 0
+    call Output.printInt 1
+    pop temp 0
+    push constant 0
+    return

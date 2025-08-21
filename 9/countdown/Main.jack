@@ -1,0 +1,15 @@
+class Main {
+    function void main() {
+        var int counter;
+        let counter = 5;
+
+        while (0 < counter) {
+            do Output.printInt(counter);
+            do Output.println();
+            let counter = counter - 1;
+        }
+        do Output.printString("Blast off!");
+
+        return;
+    }
+}
