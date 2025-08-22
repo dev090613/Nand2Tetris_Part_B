@@ -1,0 +1,18 @@
+class Main {
+    function void main() {
+        var char key;
+        while (true) {
+            let key = Keyboard.keyPressed();
+            
+            if (key = 130) {
+                do Output.printString("Left!");
+                while (Keyboard.keyPressed() = 130) {}
+            }
+            if (key = 132) {
+                do Output.printString("Right!");
+                while (Keyboard.keyPressed() = 132) {}
+            }
+        }
+        return;
+    }
+}
